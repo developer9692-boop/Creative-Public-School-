@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Creative Public School</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      --primary: #1a3c6e;
+      --secondary: #f7941d;
+      --accent: #e63946;
+      --green: #2dc653;
+      --light-bg: #f0f4ff;
+      --white: #ffffff;
+      --dark: #0d1b2a;
+      --text: #2d3748;
+      --muted: #718096;
+      --card-shadow: 0 8px 32px rgba(26,60,110,0.12);
+      --radius: 16px;
+      --transition: 0.3s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Nunito', sans-serif;
+      color: var(--text);
+      background: var(--white);
+      overflow-x: hidden;
+    }
+    img { display: block; width: 100%; height: auto; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ===== NAVBAR ===== */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: var(--primary);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%;
+      height: 70px;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.18);
+      transition: background var(--transition);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .nav-logo-icon {
+      width: 46px; height: 46px;
+      background: var(--secondary);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; color: var(--white);
+      flex-shrink: 0;
+    }
+    .nav-logo-text {
+      line-height: 1.1;
+    }
+    .nav-logo-text span {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--white);
+      letter-spacing: 0.5px;
+    }
+    .nav-logo-text small {
+      font-size: 0.7rem;
+      color: #b0c4de;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .nav-links {
+      display: flex; align-items: center; gap: 6px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: #cddeff;
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: background var(--transition), color var(--transition);
+      letter-spacing: 0.3px;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      background: var(--secondary);
+      color: var(--white);
+    }
+    .nav-links .btn-admission {
+      background: var(--accent);
+      color: var(--white);
+      border-radius: 8px;
+      padding: 8px 18px;
+    }
+    .nav-links .btn-admission:hover { background: #c1121f; }
+    .hamburger {
+      display: none;
+      flex-direction: column; gap: 5px;
+      cursor: pointer; padding: 6px;
+    }
+    .hamburger span {
+      display: block; width: 26px; height: 3px;
+      background: var(--white); border-radius: 3px;
+      transition: var(--transition);
+    }
+    /* Mobile nav */
+    @media(max-width:900px){
+      .hamburger { display: flex; }
+      .nav-links {
+        position: fixed; top: 70px; left: 0; right: 0;
+        background: var(--primary);
+        flex-direction: column; gap: 0;
+        padding: 16px 0 20px;
+        display: none;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      }
+      .nav-links.open { display: flex; }
+      .nav-links li { width: 100%; }
+      .nav-links a { display: block; padding: 12px 30px; border-radius: 0; }
+    }
+
+    /* ===== HERO / CAROUSEL ===== */
+    .hero {
+      margin-top: 70px;
+      position: relative;
+      height: 560px;
+      overflow: hidden;
+    }
+    .carousel {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.8s ease;
+    }
+    .slide {
+      min-width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+    .slide img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: brightness(0.55);
+    }
+    .slide-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(26,60,110,0.7) 0%, rgba(247,148,29,0.25) 100%);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 20px;
+    }
+    .slide-badge {
+      display: inline-block;
+      background: var(--secondary);
+      color: var(--white);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 18px;
+      border-radius: 50px;
+      margin-bottom: 18px;
+      animation: fadeDown 0.7s ease;
+    }
+    .slide-overlay h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.6rem);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 16px;
+      text-shadow: 0 2px 16px rgba(0,0,0,0.3);
+      animation: fadeUp 0.8s ease;
+    }
+    .slide-overlay p {
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      color: #e8f0ff;
+      font-weight: 600;
+      margin-bottom: 30px;
+      animation: fadeUp 1s ease;
+    }
+    .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; animation: fadeUp 1.2s ease; }
+    .btn-primary {
+      background: var(--secondary);
+      color: var(--white);
+      padding: 13px 30px;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition);
+      box-shadow: 0 4px 20px rgba(247,148,29,0.4);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(247,148,29,0.5); }
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      padding: 12px 28px;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 1rem;
+      border: 2px solid rgba(255,255,255,0.7);
+      cursor: pointer;
+      transition: background var(--transition), color var(--transition);
+    }
+    .btn-outline:hover { background: var(--white); color: var(--primary); }
+    /* carousel controls */
+    .carousel-prev, .carousel-next {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(255,255,255,0.18);
+      border: 2px solid rgba(255,255,255,0.4);
+      color: var(--white);
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      cursor: pointer;
+      z-index: 10;
+      transition: background var(--transition);
+    }
+    .carousel-prev { left: 20px; }
+    .carousel-next { right: 20px; }
+    .carousel-prev:hover, .carousel-next:hover { background: var(--secondary); border-color: var(--secondary); }
+    .carousel-dots {
+      position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 8px; z-index: 10;
+    }
+    .dot {
+      width: 10px; height: 10px;
+      background: rgba(255,255,255,0.5);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background var(--transition), transform var(--transition);
+    }
+    .dot.active { background: var(--secondary); transform: scale(1.3); }
+
+    /* ===== STATS BAR ===== */
+    .stats-bar {
+      background: var(--primary);
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      padding: 22px 5%;
+    }
+    .stat-item {
+      text-align: center;
+      padding: 10px 20px;
+      color: var(--white);
+    }
+    .stat-item .num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--secondary);
+      display: block;
+    }
+    .stat-item span:last-child {
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #b0c4de;
+    }
+
+    /* ===== SECTION COMMON ===== */
+    section { padding: 80px 5%; }
+    .section-tag {
+      display: inline-block;
+      background: #fff0d6;
+      color: var(--secondary);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 5px 16px;
+      border-radius: 50px;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 900;
+      color: var(--primary);
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+    .section-title span { color: var(--secondary); }
+    .section-sub {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 560px;
+      font-weight: 600;
+      line-height: 1.7;
+      margin-bottom: 40px;
+    }
+    .section-header-center { text-align: center; }
+    .section-header-center .section-sub { margin-left: auto; margin-right: auto; }
+
+    /* ===== ABOUT SECTION ===== */
+    .about { background: var(--light-bg); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: center;
+    }
+    .about-img {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+    }
+    .about-img img { height: 420px; object-fit: cover; }
+    .about-badge {
+      position: absolute; bottom: 20px; left: 20px;
+      background: var(--secondary);
+      color: var(--white);
+      border-radius: 12px;
+      padding: 12px 20px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 16px rgba(247,148,29,0.4);
+    }
+    .about-badge span { display: block; font-size: 1.6rem; font-family: 'Playfair Display', serif; }
+    .about-points { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px; }
+    .about-points li {
+      display: flex; align-items: flex-start; gap: 12px;
+      font-weight: 600; font-size: 0.96rem; color: var(--text);
+    }
+    .about-points li i {
+      color: var(--secondary);
+      font-size: 1.1rem;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+    @media(max-width:768px){
+      .about-grid { grid-template-columns: 1fr; }
+      .about-img img { height: 260px; }
+    }
+
+    /* ===== FACILITIES ===== */
+    .facilities-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+    .facility-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+      transition: transform var(--transition), box-shadow var(--transition);
+      cursor: default;
+    }
+    .facility-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(26,60,110,0.16); }
+    .facility-card-img {
+      height: 170px;
+      overflow: hidden;
+      position: relative;
+    }
+    .facility-card-img img { height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .facility-card:hover .facility-card-img img { transform: scale(1.08); }
+    .facility-card-icon {
+      position: absolute; top: 14px; left: 14px;
+      background: var(--secondary);
+      color: var(--white);
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      box-shadow: 0 3px 12px rgba(247,148,29,0.4);
+    }
+    .facility-card-body { padding: 18px 20px; }
+    .facility-card-body h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.12rem;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+    .facility-card-body p { font-size: 0.88rem; color: var(--muted); line-height: 1.6; font-weight: 600; }
+
+    /* ===== PRINCIPAL & DIRECTOR ===== */
+    .leadership { background: var(--light-bg); }
+    .leadership-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .leader-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--card-shadow);
+      text-align: center;
+      overflow: hidden;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .leader-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(26,60,110,0.16); }
+    .leader-img {
+      height: 220px;
+      overflow: hidden;
+      position: relative;
+    }
+    .leader-img img { height: 100%; object-fit: cover; object-position: top; }
+    .leader-ribbon {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(26,60,110,0.85));
+      padding: 28px 16px 12px;
+      color: var(--white);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+    .leader-body { padding: 20px 24px 28px; }
+    .leader-body h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+    .leader-role {
+      display: inline-block;
+      background: var(--secondary);
+      color: var(--white);
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 3px 12px;
+      border-radius: 50px;
+      margin-bottom: 12px;
+    }
+    .leader-body p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; font-weight: 600; }
+
+    /* ===== GALLERY ===== */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .gallery-item {
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      aspect-ratio: 4/3;
+    }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .gallery-item:hover img { transform: scale(1.1); }
+    .gallery-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(transparent 50%, rgba(26,60,110,0.85));
+      opacity: 0;
+      transition: opacity var(--transition);
+      display: flex; align-items: flex-end; padding: 16px;
+      color: var(--white); font-weight: 700; font-size: 0.95rem;
+    }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+    /* ===== CONTACT ===== */
+    .contact { background: var(--light-bg); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 50px;
+      align-items: start;
+    }
+    .contact-info { display: flex; flex-direction: column; gap: 20px; }
+    .contact-item {
+      display: flex; align-items: flex-start; gap: 16px;
+      background: var(--white);
+      border-radius: 12px;
+      padding: 18px 20px;
+      box-shadow: var(--card-shadow);
+    }
+    .contact-item-icon {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, var(--primary), #2563eb);
+      color: var(--white);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .contact-item h4 { font-size: 0.82rem; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .contact-item p { color: var(--text); font-weight: 700; font-size: 0.95rem; }
+    .contact-form {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 36px 32px;
+      box-shadow: var(--card-shadow);
+    }
+    .contact-form h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-bottom: 24px;
+    }
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-size: 0.85rem; font-weight: 700; color: var(--text); margin-bottom: 7px; }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.95rem;
+      color: var(--text);
+      background: #fafbff;
+      transition: border-color var(--transition), box-shadow var(--transition);
+      outline: none;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(26,60,110,0.1);
+    }
+    .form-group textarea { resize: vertical; min-height: 110px; }
+    .btn-submit {
+      background: linear-gradient(135deg, var(--primary), #2563eb);
+      color: var(--white);
+      border: none;
+      padding: 13px 32px;
+      border-radius: 50px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      width: 100%;
+      transition: transform var(--transition), box-shadow var(--transition);
+      box-shadow: 0 4px 20px rgba(26,60,110,0.3);
+    }
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(26,60,110,0.4); }
+    @media(max-width:768px){
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--dark);
+      color: #b0c4de;
+      padding: 60px 5% 0;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+      gap: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .footer-brand h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+    .footer-brand p { font-size: 0.88rem; line-height: 1.7; margin-bottom: 20px; }
+    .social-icons { display: flex; gap: 10px; }
+    .social-icons a {
+      width: 38px; height: 38px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: #b0c4de;
+      transition: background var(--transition), color var(--transition);
+    }
+    .social-icons a:hover { background: var(--secondary); color: var(--white); }
+    .footer-col h4 { color: var(--white); font-size: 1rem; font-weight: 800; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul li a {
+      font-size: 0.88rem;
+      color: #b0c4de;
+      transition: color var(--transition);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .footer-col ul li a:before { content: '›'; color: var(--secondary); font-size: 1.1rem; }
+    .footer-col ul li a:hover { color: var(--secondary); }
+    .footer-bottom {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.85rem;
+      color: #6b7a99;
+    }
+    .footer-bottom span { color: var(--secondary); }
+    @media(max-width:900px){
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media(max-width:500px){
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== NOTICE TICKER ===== */
+    .ticker-bar {
+      background: var(--secondary);
+      color: var(--white);
+      padding: 9px 0;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+    .ticker-label {
+      background: var(--accent);
+      font-weight: 800;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0 18px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      height: 100%;
+      display: flex; align-items: center;
+    }
+    .ticker-track {
+      white-space: nowrap;
+      animation: ticker 28s linear infinite;
+      font-size: 0.88rem;
+      font-weight: 700;
+      padding-left: 40px;
+    }
+    @keyframes ticker {
+      0% { transform: translateX(100vw); }
+      100% { transform: translateX(-100%); }
+    }
+
+    /* ===== CLASSES TEASER ===== */
+    .classes-teaser-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 16px;
+    }
+    .class-chip {
+      background: var(--white);
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 14px 10px;
+      text-align: center;
+      font-weight: 800;
+      font-size: 0.9rem;
+      color: var(--primary);
+      transition: background var(--transition), border-color var(--transition), color var(--transition), transform var(--transition);
+      cursor: pointer;
+    }
+    .class-chip:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: var(--white);
+      transform: translateY(-4px);
+    }
+    .class-chip i { display: block; font-size: 1.5rem; margin-bottom: 6px; color: var(--secondary); }
+    .class-chip:hover i { color: var(--white); }
+
+    /* ===== MOBILE HERO ===== */
+    @media(max-width:600px){
+      .hero { height: 420px; }
+      section { padding: 55px 5%; }
+    }
+
+    /* ===== SUCCESS TOAST ===== */
+    .toast {
+      position: fixed; bottom: 30px; right: 30px;
+      background: var(--green);
+      color: var(--white);
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.4s ease;
+      z-index: 9999;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav id="navbar">
+  <div class="nav-logo">
+    <div class="nav-logo-icon"><i class="fas fa-graduation-cap"></i></div>
+    <div class="nav-logo-text">
+      <span>Creative Public School</span>
+      <small>Est. 2005 · Nursery to 10th</small>
+    </div>
+  </div>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home" class="active" onclick="closeMenu()">Home</a></li>
+    <li><a href="#about" onclick="closeMenu()">About</a></li>
+    <li><a href="#facilities" onclick="closeMenu()">Facilities</a></li>
+    <li><a href="#gallery" onclick="closeMenu()">Gallery</a></li>
+    <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
+    <li><a href="school.html" class="btn-admission" onclick="closeMenu()">All Classes</a></li>
+  </ul>
+</nav>
+
+<!-- ===== TICKER ===== -->
+<div class="ticker-bar" style="margin-top:70px;">
+  <div class="ticker-label">📢 Notice</div>
+  <div class="ticker-track">
+    🎉 Admissions Open for Session 2025-26 &nbsp;|&nbsp;
+    🏆 Annual Sports Day on 25th March — All Parents Invited &nbsp;|&nbsp;
+    📚 New Smart Classrooms launched for Classes 6-10 &nbsp;|&nbsp;
+    🎨 Cultural Fest on 10th April — Registration Now Open &nbsp;|&nbsp;
+    📞 Contact us: +91-9876543210 for admission enquiry
+  </div>
+</div>
+
+<!-- ===== HERO CAROUSEL ===== -->
+<section class="hero" id="home">
+  <div class="carousel" id="carousel">
+    <!-- Slide 1 -->
+    <div class="slide">
+      <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=1400&q=80" alt="School Campus"/>
+      <div class="slide-overlay">
+        <div class="slide-badge">🌟 Excellence in Education</div>
+        <h1>Welcome to<br/>Creative Public School</h1>
+        <p>Quality Education from Nursery to Class 10th</p>
+        <div class="hero-btns">
+          <a href="school.html"><button class="btn-primary">Explore Classes</button></a>
+          <a href="#contact"><button class="btn-outline">Enquire Now</button></a>
+        </div>
+      </div>
+    </div>
+    <!-- Slide 2 -->
+    <div class="slide">
+      <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=1400&q=80" alt="Students Learning"/>
+      <div class="slide-overlay">
+        <div class="slide-badge">📚 Smart Learning</div>
+        <h1>Building Future<br/>Leaders of Tomorrow</h1>
+        <p>Smart Classrooms · Qualified Teachers · Safe Environment</p>
+        <div class="hero-btns">
+          <a href="#about"><button class="btn-primary">Know More</button></a>
+          <a href="#facilities"><button class="btn-outline">Our Facilities</button></a>
+        </div>
+      </div>
+    </div>
+    <!-- Slide 3 -->
+    <div class="slide">
+      <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1400&q=80" alt="Classroom"/>
+      <div class="slide-overlay">
+        <div class="slide-badge">🏆 Award Winning School</div>
+        <h1>Where Every Child<br/>Discovers Their Potential</h1>
+        <p>Sports · Arts · Science · Technology · Culture</p>
+        <div class="hero-btns">
+          <a href="#gallery"><button class="btn-primary">View Gallery</button></a>
+          <a href="#contact"><button class="btn-outline">Contact Us</button></a>
+        </div>
+      </div>
+    </div>
+    <!-- Slide 4 -->
+    <div class="slide">
+      <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=1400&q=80" alt="Students Activities"/>
+      <div class="slide-overlay">
+        <div class="slide-badge">🎨 Holistic Development</div>
+        <h1>Nurturing Young Minds<br/>Since 2005</h1>
+        <p>Admissions Open for Session 2025–26</p>
+        <div class="hero-btns">
+          <a href="#contact"><button class="btn-primary">Apply Now</button></a>
+          <a href="#about"><button class="btn-outline">Learn More</button></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="carousel-prev" onclick="prevSlide()"><i class="fas fa-chevron-left"></i></button>
+  <button class="carousel-next" onclick="nextSlide()"><i class="fas fa-chevron-right"></i></button>
+  <div class="carousel-dots" id="dots"></div>
+</section>
+
+<!-- ===== STATS BAR ===== -->
+<div class="stats-bar reveal">
+  <div class="stat-item">
+    <span class="num">2000+</span>
+    <span>Students Enrolled</span>
+  </div>
+  <div class="stat-item">
+    <span class="num">80+</span>
+    <span>Qualified Teachers</span>
+  </div>
+  <div class="stat-item">
+    <span class="num">13</span>
+    <span>Classes Offered</span>
+  </div>
+  <div class="stat-item">
+    <span class="num">20+</span>
+    <span>Years of Excellence</span>
+  </div>
+  <div class="stat-item">
+    <span class="num">95%</span>
+    <span>Board Pass Rate</span>
+  </div>
+</div>
+
+<!-- ===== ABOUT SECTION ===== -->
+<section class="about" id="about">
+  <div class="about-grid">
+    <div class="about-img reveal">
+      <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?w=800&q=80" alt="School Building"/>
+      <div class="about-badge">
+        <span>20+</span>
+        Years of Excellence
+      </div>
+    </div>
+    <div class="about-content reveal">
+      <div class="section-tag">About Us</div>
+      <h2 class="section-title">A Premier Institution for <span>Holistic Education</span></h2>
+      <p class="section-sub">Creative Public School has been a cornerstone of quality education in our community since 2005. We offer a nurturing environment where students grow academically, emotionally, and socially.</p>
+      <ul class="about-points">
+        <li><i class="fas fa-check-circle"></i> Comprehensive curriculum from Nursery to Class 10th following CBSE guidelines</li>
+        <li><i class="fas fa-check-circle"></i> State-of-the-art smart classrooms with interactive digital boards</li>
+        <li><i class="fas fa-check-circle"></i> Highly qualified, experienced, and dedicated teaching faculty</li>
+        <li><i class="fas fa-check-circle"></i> Safe, secure, and child-friendly campus environment</li>
+        <li><i class="fas fa-check-circle"></i> Vibrant sports programs, cultural activities & annual fests</li>
+        <li><i class="fas fa-check-circle"></i> Modern computer lab with internet & programming courses</li>
+        <li><i class="fas fa-check-circle"></i> Well-stocked library with 10,000+ books and digital resources</li>
+        <li><i class="fas fa-check-circle"></i> School transport facility covering major routes in the city</li>
+      </ul>
+      <a href="school.html"><button class="btn-primary">Explore All Classes</button></a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CLASSES TEASER ===== -->
+<section id="classes" style="background:#fff;">
+  <div class="section-header-center reveal">
+    <div class="section-tag">Our Classes</div>
+    <h2 class="section-title">Classes from <span>Nursery to 10th</span></h2>
+    <p class="section-sub">We offer a complete schooling journey. Click on any class to learn more.</p>
+  </div>
+  <div class="classes-teaser-grid reveal">
+    <a href="school.html" class="class-chip"><i class="fas fa-baby"></i>Nursery</a>
+    <a href="school.html" class="class-chip"><i class="fas fa-child"></i>LKG</a>
+    <a href="school.html" class="class-chip"><i class="fas fa-child"></i>UKG</a>
+    <a href="school.html" class="class-chip"><i class="fas fa-pencil-alt"></i>Class 1</a>
+    <a href="school.html" class="class-chip"><i class="fas fa-book"></i>Class 2</a>
+    <a href="school.html" class="class-chip"><i class="fas fa-book-open"></i>Class 3</a>
+    <a href="school.html" class="class-chip"><i class="fas fa-calculator"></i>Class 4</a>
+    <a href="school.html" class="class-chip"><i class="fas fa-flask"></i>Class 5</a>
+    <a href="school.html" class="class-chip"><i class="fas fa-globe"></i>Class 6</a>
+    <a href="school.html" class="class-chip"><i class="fas fa-atom"></i>Class 7</a>
+    <a href="school.html" class="class-chip"><i class="fas fa-microscope"></i>Class 8</a>
+    <a href="school.html" class="class-chip"><i class="fas fa-laptop-code"></i>Class 9</a>
+    <a href="school.html" class="class-chip"><i class="fas fa-trophy"></i>Class 10</a>
+  </div>
+</section>
+
+<!-- ===== FACILITIES ===== -->
+<section id="facilities" style="background: var(--light-bg);">
+  <div class="section-header-center reveal">
+    <div class="section-tag">Our Facilities</div>
+    <h2 class="section-title">World-Class <span>Facilities</span></h2>
+    <p class="section-sub">We provide the best infrastructure and resources to ensure a holistic learning experience for every student.</p>
+  </div>
+  <div class="facilities-grid">
+    <div class="facility-card reveal">
+      <div class="facility-card-img">
+        <img src="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=600&q=80" alt="Smart Class"/>
+        <div class="facility-card-icon"><i class="fas fa-desktop"></i></div>
+      </div>
+      <div class="facility-card-body">
+        <h3>Smart Classrooms</h3>
+        <p>Interactive digital boards, projectors, and multimedia learning tools in every classroom for engaging lessons.</p>
+      </div>
+    </div>
+    <div class="facility-card reveal">
+      <div class="facility-card-img">
+        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&q=80" alt="Computer Lab"/>
+        <div class="facility-card-icon"><i class="fas fa-laptop"></i></div>
+      </div>
+      <div class="facility-card-body">
+        <h3>Computer Lab</h3>
+        <p>Modern computer lab with 60+ systems, high-speed internet, and qualified instructors for digital literacy.</p>
+      </div>
+    </div>
+    <div class="facility-card reveal">
+      <div class="facility-card-img">
+        <img src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=600&q=80" alt="Library"/>
+        <div class="facility-card-icon"><i class="fas fa-book-reader"></i></div>
+      </div>
+      <div class="facility-card-body">
+        <h3>Library</h3>
+        <p>A well-stocked library with 10,000+ books, e-books, journals, and a dedicated reading area for students.</p>
+      </div>
+    </div>
+    <div class="facility-card reveal">
+      <div class="facility-card-img">
+        <img src="https://images.unsplash.com/photo-1546519638-68e109498ffc?w=600&q=80" alt="Playground"/>
+        <div class="facility-card-icon"><i class="fas fa-running"></i></div>
+      </div>
+      <div class="facility-card-body">
+        <h3>Playground</h3>
+        <p>Spacious ground for cricket, football, athletics and multiple outdoor sports to promote physical fitness.</p>
+      </div>
+    </div>
+    <div class="facility-card reveal">
+      <div class="facility-card-img">
+        <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=600&q=80" alt="Transport"/>
+        <div class="facility-card-icon"><i class="fas fa-bus"></i></div>
+      </div>
+      <div class="facility-card-body">
+        <h3>Transport Facility</h3>
+        <p>Safe and comfortable school buses covering all major routes, with GPS tracking and trained drivers.</p>
+      </div>
+    </div>
+    <div class="facility-card reveal">
+      <div class="facility-card-img">
+        <img src="https://images.unsplash.com/photo-1532094349884-543559b8b9cd?w=600&q=80" alt="Science Lab"/>
+        <div class="facility-card-icon"><i class="fas fa-flask"></i></div>
+      </div>
+      <div class="facility-card-body">
+        <h3>Science Lab</h3>
+        <p>Fully equipped Physics, Chemistry, and Biology labs for hands-on experiments and scientific exploration.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRINCIPAL & DIRECTOR ===== -->
+<section class="leadership" id="leadership">
+  <div class="section-header-center reveal">
+    <div class="section-tag">Our Leadership</div>
+    <h2 class="section-title">Meet Our <span>Visionaries</span></h2>
+    <p class="section-sub">Our school is guided by experienced and dedicated leaders who are committed to providing the best education.</p>
+  </div>
+  <div class="leadership-grid">
+    <div class="leader-card reveal">
+      <div class="leader-img">
+        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&q=80" alt="Principal Raushan Sir"/>
+        <div class="leader-ribbon">Principal</div>
+      </div>
+      <div class="leader-body">
+        <div class="leader-role">Principal</div>
+        <h3>Raushan Sir</h3>
+        <p>With over 18 years in education, Raushan Sir is dedicated to building a culture of academic excellence and compassionate leadership. His vision drives our school toward innovation and holistic student development.</p>
+      </div>
+    </div>
+    <div class="leader-card reveal">
+      <div class="leader-img">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80" alt="Director Ranjit Sir"/>
+        <div class="leader-ribbon">Director</div>
+      </div>
+      <div class="leader-body">
+        <div class="leader-role">Director</div>
+        <h3>Ranjit Sir</h3>
+        <p>Ranjit Sir, the founder and director, has been the guiding force behind Creative Public School's growth since 2005. His passion for quality education and community development has shaped thousands of young lives.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GALLERY ===== -->
+<section id="gallery" style="background:#fff;">
+  <div class="section-header-center reveal">
+    <div class="section-tag">Photo Gallery</div>
+    <h2 class="section-title">Life at <span>Creative School</span></h2>
+    <p class="section-sub">A glimpse into the vibrant life and activities at Creative Public School.</p>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item reveal">
+      <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=600&q=80" alt="Students Studying"/>
+      <div class="gallery-overlay">📚 Students Studying</div>
+    </div>
+    <div class="gallery-item reveal">
+      <img src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=600&q=80" alt="Classroom"/>
+      <div class="gallery-overlay">🏫 Smart Classroom</div>
+    </div>
+    <div class="gallery-item reveal">
+      <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&q=80" alt="Playground"/>
+      <div class="gallery-overlay">⚽ Sports & Playground</div>
+    </div>
+    <div class="gallery-item reveal">
+      <img src="https://images.unsplash.com/photo-1558021211-6d1403321394?w=600&q=80" alt="Cultural Activities"/>
+      <div class="gallery-overlay">🎭 Cultural Activities</div>
+    </div>
+    <div class="gallery-item reveal">
+      <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=80" alt="Group Study"/>
+      <div class="gallery-overlay">👥 Group Learning</div>
+    </div>
+    <div class="gallery-item reveal">
+      <img src="https://images.unsplash.com/photo-1513258496099-48168024aec0?w=600&q=80" alt="Science Experiment"/>
+      <div class="gallery-overlay">🔬 Science Lab</div>
+    </div>
+    <div class="gallery-item reveal">
+      <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?w=600&q=80" alt="School Building"/>
+      <div class="gallery-overlay">🏛️ School Campus</div>
+    </div>
+    <div class="gallery-item reveal">
+      <img src="https://images.unsplash.com/photo-1606761568499-6d2451b23c66?w=600&q=80" alt="Annual Function"/>
+      <div class="gallery-overlay">🎉 Annual Function</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact" class="contact">
+  <div class="section-header-center reveal">
+    <div class="section-tag">Contact Us</div>
+    <h2 class="section-title">Get In <span>Touch</span></h2>
+    <p class="section-sub">We'd love to hear from you. Reach out for admissions, enquiries, or any information.</p>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info reveal">
+      <div class="contact-item">
+        <div class="contact-item-icon"><i class="fas fa-map-marker-alt"></i></div>
+        <div>
+          <h4>Address</h4>
+          <p>123, Main School Road, Near City Park,<br/>Patna, Bihar – 800001</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon"><i class="fas fa-phone-alt"></i></div>
+        <div>
+          <h4>Phone Numbers</h4>
+          <p>+91-9876543210<br/>+91-0612-234567</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon"><i class="fas fa-envelope"></i></div>
+        <div>
+          <h4>Email Address</h4>
+          <p>info@creativepublicschool.edu.in<br/>admissions@creativepublicschool.edu.in</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon"><i class="fas fa-clock"></i></div>
+        <div>
+          <h4>School Hours</h4>
+          <p>Monday – Saturday: 7:30 AM – 2:30 PM<br/>Office: 9:00 AM – 5:00 PM</p>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form reveal">
+      <h3>Send Us a Message</h3>
+      <div class="form-group">
+        <label for="name">Full Name *</label>
+        <input type="text" id="name" placeholder="Enter your full name"/>
+      </div>
+      <div class="form-group">
+        <label for="email">Email Address *</label>
+        <input type="email" id="email" placeholder="Enter your email"/>
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" placeholder="Enter your phone number"/>
+      </div>
+      <div class="form-group">
+        <label for="message">Message *</label>
+        <textarea id="message" placeholder="Write your message here..."></textarea>
+      </div>
+      <button class="btn-submit" onclick="submitForm()">
+        <i class="fas fa-paper-plane"></i> Send Message
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <h2>🎓 Creative Public School</h2>
+      <p>Empowering young minds with quality education, values, and skills since 2005. From Nursery to Class 10th, we nurture every child's potential.</p>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About School</a></li>
+        <li><a href="#facilities">Facilities</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="school.html">All Classes</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Classes</h4>
+      <ul>
+        <li><a href="school.html">Nursery & LKG/UKG</a></li>
+        <li><a href="school.html">Class 1st – 3rd</a></li>
+        <li><a href="school.html">Class 4th – 6th</a></li>
+        <li><a href="school.html">Class 7th – 8th</a></li>
+        <li><a href="school.html">Class 9th – 10th</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact Info</h4>
+      <ul>
+        <li><a href="#">📍 123, Main School Road, Patna</a></li>
+        <li><a href="#">📞 +91-9876543210</a></li>
+        <li><a href="#">✉️ info@creativepublicschool.edu.in</a></li>
+        <li><a href="#">🕐 Mon–Sat: 7:30AM – 2:30PM</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2025 <span>Creative Public School</span>. All Rights Reserved. | Designed with ❤️ for Education
+  </div>
+</footer>
+
+<!-- Toast notification -->
+<div class="toast" id="toast">✅ Message sent successfully! We'll contact you soon.</div>
+
+<script>
+  // ===== CAROUSEL =====
+  let currentSlide = 0;
+  const carousel = document.getElementById('carousel');
+  const slides = carousel.querySelectorAll('.slide');
+  const dotsContainer = document.getElementById('dots');
+  let autoSlideTimer;
+
+  // Create dots
+  slides.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => goToSlide(i);
+    dotsContainer.appendChild(dot);
+  });
+
+  function updateDots() {
+    document.querySelectorAll('.dot').forEach((d, i) => {
+      d.classList.toggle('active', i === currentSlide);
+    });
+  }
+
+  function goToSlide(n) {
+    currentSlide = (n + slides.length) % slides.length;
+    carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
+    updateDots();
+  }
+
+  function nextSlide() { goToSlide(currentSlide + 1); resetTimer(); }
+  function prevSlide() { goToSlide(currentSlide - 1); resetTimer(); }
+
+  function resetTimer() {
+    clearInterval(autoSlideTimer);
+    autoSlideTimer = setInterval(() => goToSlide(currentSlide + 1), 4500);
+  }
+  resetTimer();
+
+  // ===== MOBILE MENU =====
+  function toggleMenu() {
+    const nl = document.getElementById('navLinks');
+    nl.classList.toggle('open');
+  }
+  function closeMenu() {
+    document.getElementById('navLinks').classList.remove('open');
+  }
+
+  // ===== SCROLL REVEAL =====
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => observer.observe(el));
+
+  // ===== ACTIVE NAV LINK =====
+  const sections = document.querySelectorAll('section[id]');
+  window.addEventListener('scroll', () => {
+    let scrollY = window.scrollY;
+    sections.forEach(sec => {
+      const top = sec.offsetTop - 100;
+      const height = sec.offsetHeight;
+      const id = sec.getAttribute('id');
+      const link = document.querySelector(`.nav-links a[href="#${id}"]`);
+      if (link) {
+        link.classList.toggle('active', scrollY >= top && scrollY < top + height);
+      }
+    });
+  });
+
+  // ===== CONTACT FORM =====
+  function submitForm() {
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
+    if (!name || !email || !message) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 4000);
+    document.getElementById('name').value = '';
+    document.getElementById('email').value = '';
+    document.getElementById('phone').value = '';
+    document.getElementById('message').value = '';
+  }
+</script>
+</body>
+</html>
